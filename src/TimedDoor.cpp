@@ -24,7 +24,7 @@ void Timer::tregister(int timeout, TimerClient* client) {
             std::thread([timeout, client]() {
                 std::this_thread::sleep_for(std::chrono::seconds(timeout));
                 if (client) client->Timeout();
-                }).detach();
+            }).detach();
         }
     }
 }
@@ -52,6 +52,7 @@ TimedDoor::TimedDoor(int timeout) : iTimeout(timeout), isOpened(false) {
 }
 
 TimedDoor::~TimedDoor() {
+    armedMap.erase(this);
     delete adapter;
 }
 
