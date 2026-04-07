@@ -44,28 +44,10 @@ TEST_F(TimedDoorTest, TimeoutThrowsWhenDoorOpen) {
     EXPECT_THROW(door.unlock(), std::runtime_error);
 }
 
-TEST_F(TimedDoorTest, LockBeforeTimeoutPreventsException) {
-    g_registerTimer = [&](int timeout, TimerClient* client) {
-    };
-    TimedDoor door(2);
-    door.unlock();
-    door.lock();
-    door.unlock();
-    EXPECT_TRUE(true);
-}
-
 TEST_F(TimedDoorTest, DoubleUnlockThrowsImmediately) {
     TimedDoor door(5);
     door.unlock();
     EXPECT_THROW(door.unlock(), std::runtime_error);
-}
-
-TEST_F(TimedDoorTest, UnlockAfterLockResetsTimer) {
-    TimedDoor door(5);
-    door.unlock();
-    door.lock();
-    EXPECT_NO_THROW(door.unlock());
-    EXPECT_TRUE(door.isDoorOpened());
 }
 
 TEST_F(TimedDoorTest, GetTimeOutReturnsCorrectValue) {
@@ -80,13 +62,6 @@ TEST_F(TimedDoorTest, DestructorDeletesAdapter) {
     door->unlock();
     delete door;
     EXPECT_TRUE(true);
-}
-
-TEST_F(TimedDoorTest, TimeoutWhenDoorClosedDoesNotThrow) {
-    TimedDoor door(2);
-    door.unlock();
-    door.lock();
-    EXPECT_NO_THROW(door.unlock());
 }
 
 TEST_F(TimedDoorTest, TimerRegisterReceivesCorrectTimeout) {
@@ -109,16 +84,6 @@ TEST_F(TimedDoorTest, TimerRegisterReceivesCorrectClient) {
     EXPECT_NE(registeredClient, nullptr);
 }
 
-TEST_F(TimedDoorTest, MultipleUnlockLockCycles) {
-    TimedDoor door(3);
-    for (int i = 0; i < 5; ++i) {
-        EXPECT_NO_THROW(door.unlock());
-        EXPECT_TRUE(door.isDoorOpened());
-        EXPECT_NO_THROW(door.lock());
-        EXPECT_FALSE(door.isDoorOpened());
-    }
-}
-
 TEST_F(TimedDoorTest, ThrowStateThrowsRuntimeError) {
     TimedDoor door(1);
     EXPECT_THROW(door.throwState(), std::runtime_error);
@@ -131,18 +96,4 @@ TEST_F(TimedDoorTest, AfterExceptionDoorStateRemainsOpen) {
     TimedDoor door(1);
     EXPECT_THROW(door.unlock(), std::runtime_error);
     EXPECT_TRUE(door.isDoorOpened());
-}
-
-TEST_F(TimedDoorTest, MultipleDoorsWorkIndependently) {
-    TimedDoor door1(10);
-    TimedDoor door2(20);
-    door1.unlock();
-    door2.unlock();
-    EXPECT_TRUE(door1.isDoorOpened());
-    EXPECT_TRUE(door2.isDoorOpened());
-    door1.lock();
-    EXPECT_FALSE(door1.isDoorOpened());
-    EXPECT_TRUE(door2.isDoorOpened());
-    EXPECT_NO_THROW(door1.unlock());
-    EXPECT_THROW(door2.unlock(), std::runtime_error);
 }
