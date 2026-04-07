@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <functional>
 #include "TimedDoor.h"
-
+// cct
 extern std::function<void(int, TimerClient*)> g_registerTimer;
 
 class TimedDoorTest : public ::testing::Test {
