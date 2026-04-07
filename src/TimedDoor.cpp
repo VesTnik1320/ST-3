@@ -17,12 +17,10 @@ void Timer::sleep(int seconds) {
 void Timer::tregister(int timeout, TimerClient* client) {
     if (g_registerTimer) {
         g_registerTimer(timeout, client);
-    }
-    else {
+    } else {
         if (timeout == 0) {
             if (client) client->Timeout();
-        }
-        else {
+        } else {
             std::thread([timeout, client]() {
                 std::this_thread::sleep_for(std::chrono::seconds(timeout));
                 if (client) client->Timeout();
@@ -41,8 +39,7 @@ void DoorTimerAdapter::Timeout() {
         armed = true;
         Timer timer;
         timer.tregister(door.getTimeOut(), this);
-    }
-    else {
+    } else {
         if (door.isDoorOpened()) {
             door.throwState();
         }
