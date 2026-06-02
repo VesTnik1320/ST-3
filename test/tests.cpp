@@ -9,19 +9,19 @@ using ::testing::AtLeast;
 using ::testing::Exactly;
 
 class MockTimerClient : public TimerClient {
-public:
+ public:
     MOCK_METHOD(void, Timeout, (), (override));
 };
 
 class MockDoor : public Door {
-public:
+ public:
     MOCK_METHOD(void, lock, (), (override));
     MOCK_METHOD(void, unlock, (), (override));
     MOCK_METHOD(bool, isDoorOpened, (), (override));
 };
 
 class TimedDoorTest : public ::testing::Test {
-protected:
+ protected:
     TimedDoor* door;
     void SetUp() override {
         door = new TimedDoor(5);
@@ -77,7 +77,7 @@ TEST_F(TimedDoorTest, CanRemainOpenAfterException) {
 }
 
 class DoorTimerAdapterTest : public ::testing::Test {
-protected:
+ protected:
     TimedDoor* door;
     DoorTimerAdapter* adapter;
     void SetUp() override {
