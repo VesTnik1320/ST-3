@@ -37,30 +37,30 @@ protected:
     }
 };
 
-TEST_F(TimedDoorTest, CanDoorInitiallyClosedCheck) {
+TEST_F(TimedDoorTest, DoorInitiallyClosed) {
     EXPECT_FALSE(door->isDoorOpened());
 }
 
-TEST_F(TimedDoorTest, CanLockClosesDoorCheck) {
+TEST_F(TimedDoorTest, LockClosesDoor) {
     door->lock();
     EXPECT_FALSE(door->isDoorOpened());
 }
 
-TEST_F(TimedDoorTest, CanGetTimeoutReturnsCorrectValueCheck) {
+TEST_F(TimedDoorTest, GetTimeoutReturnsCorrectValue) {
     TimedDoor d(5);
     EXPECT_EQ(d.getTimeOut(), 5);
 }
 
-TEST_F(TimedDoorTest, CanAdapterIsNotNullCheck) {
+TEST_F(TimedDoorTest, AdapterIsNotNull) {
     EXPECT_NE(door->getAdapter(), nullptr);
 }
 
-TEST_F(TimedDoorTest, CanThrowStateNoThrowWhenDoorClosedCheck) {
+TEST_F(TimedDoorTest, ThrowStateNoThrowWhenDoorClosed) {
     door->lock();
     EXPECT_NO_THROW(door->throwState());
 }
 
-TEST_F(TimedDoorTest, CanThrowStateThrowsWhenDoorOpenCheck) {
+TEST_F(TimedDoorTest, ThrowStateThrowsWhenDoorOpen) {
     class OpenDoor : public TimedDoor {
     public:
         explicit OpenDoor(int t) : TimedDoor(t) {}
@@ -69,25 +69,25 @@ TEST_F(TimedDoorTest, CanThrowStateThrowsWhenDoorOpenCheck) {
     EXPECT_NO_THROW(door->throwState());
 }
 
-TEST_F(TimedDoorTest, CanAfterLockDoorIsClosedCheck) {
+TEST_F(TimedDoorTest, AfterLockDoorIsClosed) {
     door->lock();
     ASSERT_FALSE(door->isDoorOpened());
 }
 
-TEST(DoorTimerAdapterTest, CanTimeoutNoThrowWhenDoorClosedCheck) {
+TEST(DoorTimerAdapterTest, TimeoutNoThrowWhenDoorClosed) {
     TimedDoor door(1);
     DoorTimerAdapter* adapter = door.getAdapter();
     EXPECT_NO_THROW(adapter->Timeout());
 }
 
-TEST(MockTimerClientTest, CanTimeoutCalledExactlyOnceCheck) {
+TEST(MockTimerClientTest, TimeoutCalledExactlyOnce) {
     MockTimerClient mockClient;
     EXPECT_CALL(mockClient, Timeout()).Times(Exactly(1));
     Timer timer;
     timer.tregister(1, &mockClient);
 }
 
-TEST(MockDoorTest, CanLockAndUnlockAreCalledCheck) {
+TEST(MockDoorTest, LockAndUnlockAreCalled) {
     MockDoor mockDoor;
     EXPECT_CALL(mockDoor, lock()).Times(Exactly(1));
     EXPECT_CALL(mockDoor, unlock()).Times(Exactly(1));
@@ -96,7 +96,7 @@ TEST(MockDoorTest, CanLockAndUnlockAreCalledCheck) {
     mockDoor.unlock();
 }
 
-TEST(MockDoorTest, CanIsDoorOpenedReturnsMockedValueCheck) {
+TEST(MockDoorTest, IsDoorOpenedReturnsMockedValue) {
     MockDoor mockDoor;
     EXPECT_CALL(mockDoor, isDoorOpened())
         .WillOnce(Return(true))
@@ -105,7 +105,7 @@ TEST(MockDoorTest, CanIsDoorOpenedReturnsMockedValueCheck) {
     EXPECT_FALSE(mockDoor.isDoorOpened());
 }
 
-TEST_F(TimedDoorTest, CanNoExceptionAfterQuickCloseCheck) {
+TEST_F(TimedDoorTest, NoExceptionAfterQuickClose) {
     door->lock();
     EXPECT_NO_THROW(door->throwState());
 }
