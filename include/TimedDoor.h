@@ -36,7 +36,7 @@ public:
 	bool isDoorOpened() override;
 	void unlock() override;
 	void lock() override;
-	int  getTimeOut();
+	int getTimeOut();
 	void throwState();
 	DoorTimerAdapter* getAdapter();
 };

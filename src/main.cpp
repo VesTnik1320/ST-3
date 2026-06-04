@@ -1,11 +1,15 @@
 // Copyright 2021 GHA Test Team
-#include "TimedDoor.h"
 #include <iostream>
+#include "TimedDoor.h"
 
 int main() {
-  TimedDoor tDoor(5);
-  tDoor.lock();
-  tDoor.unlock();
-
-  return 0;
+    try {
+        TimedDoor door(2);
+        door.lock();
+        door.unlock();
+    }
+    catch (const std::runtime_error& e) {
+        std::cerr << "Exception: " << e.what() << std::endl;
+    }
+    return 0;
 }
